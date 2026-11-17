@@ -1,0 +1,232 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-base: #0b0c10;
+  --color-panel: #13151b;
+  --color-raised: #1b1e26;
+  --color-hover: #252933;
+  --color-line: #272b35;
+  --color-ink: #e8eaf0;
+  --color-muted: #9da4b4;
+  --color-faint: #697084;
+  --color-accent: #8b6cff;
+  --color-accent-strong: #7a57ff;
+  --color-accent-soft: #8b6cff26;
+  --color-danger: #f4526b;
+  --color-success: #34d399;
+
+  --shadow-pop: 0 18px 50px -12px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.06);
+
+  --animate-pop: pop 0.14s ease-out;
+  --animate-slide: slide 2s ease-in-out infinite;
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(350%);
+    }
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--color-base);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    color-scheme: dark;
+    user-select: none;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  /* İnce koyu kaydırma çubukları */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #343946 transparent;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+}
+
+/* Kaydırıcı: dolu kısım --pct değişkeniyle boyanır */
+.range {
+  --pct: 50%;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent) var(--pct),
+    #323644 var(--pct)
+  );
+}
+
+.range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: #323644;
+}
+
+.range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+  transition: transform 0.1s;
+}
+
+.range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+}
+
+.range:hover::-webkit-slider-thumb,
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+/* Merkezden iki yöne dolan kaydırıcı (−100…100 gibi) */
+.range.range-bipolar::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    #323644 min(var(--pct), 50%),
+    var(--color-accent) min(var(--pct), 50%),
+    var(--color-accent) max(var(--pct), 50%),
+    #323644 max(var(--pct), 50%)
+  );
+}
+
+/* Çalışma alanı zemini: hafif noktalı ızgara */
+.workspace-surface {
+  background-color: #0b0c10;
+  background-image: radial-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Saydamlık göstergesi */
+.checker {
+  background-image:
+    linear-gradient(45deg, #3a3f4c 25%, transparent 25%),
+    linear-gradient(-45deg, #3a3f4c 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #3a3f4c 75%),
+    linear-gradient(-45deg, transparent 75%, #3a3f4c 75%);
+  background-size: 10px 10px;
+  background-position:
+    0 0,
+    0 5px,
+    5px -5px,
+    -5px 0;
+  background-color: #23262f;
+}
+
+/* react-colorful koyu temaya uyum */
+.color-picker .react-colorful {
+  width: 100%;
+  height: 168px;
+}
+
+.color-picker .react-colorful__saturation {
+  border-radius: 8px 8px 0 0;
+}
+
+.color-picker .react-colorful__hue,
+.color-picker .react-colorful__alpha {
+  height: 12px;
+}
+
+.color-picker .react-colorful__last-control {
+  border-radius: 0 0 8px 8px;
+}
+
+.color-picker .react-colorful__pointer {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* react-image-crop koyu temaya uyum */
+.ReactCrop__crop-selection {
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 9999em rgb(5 6 10 / 0.72);
+}
+
+.ReactCrop__drag-handle {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+}
